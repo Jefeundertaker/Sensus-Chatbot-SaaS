@@ -1,0 +1,62 @@
+A Central de Ajuda substitui o antigo Help OnLine do Datasul. Trazendo, além do conteúdo do Help, documentos de mais 4 fontes de pesquisa: TDN, YouTube, Blog TOTVS e Fluig  
+
+  
+  
+ O conteúdo será exibido com uma ou mais colunas para cada fonte de pesquisa contendo links para os resultados das buscas, conforme exemplo em imagem abaixo:  
+  
+
+_Central de Ajuda -_ 
+
+  
+Na caixa de texto da central de ajuda o usuário poderá refinar a sua busca, conforme definição de cada fonte de pesquisa (descritas mais adiante neste manual).  
+As consultas serão feitas de forma on line, trazendo sempre resultados atualizados em todas as fontes de pesquisa. Por conta disso, é necessário que o cliente possua conexão com a internet.  
+A busca em cada fonte é feita de forma assíncrona, ou seja, cada fonte de pesquisa é consultada de forma independente das outras (sem travar a utilização da central) e o usuário pode acessar o conteúdo mesmo antes que a central seja carregada completamente (com o retorno de todas as fontes). Por conta disso, caso alguma fonte de pesquisa fique indisponível, somente a coluna relacionada exibirá uma mensagem de indisponibilidade (as outas colunas continuarão trazendo os resultados disponíveis).
+
+  
+Em linhas gerais, ao acessar a central de ajuda no sistema, o usuário será direcionado para a Central de Ajuda com acesso aos seguintes conteúdos:
+
+*   Links para vídeos no YouTube
+
+Conteúdo do canal Tutoriais e Demonstrações da TOTVS ([{+}]()[https://www.youtube.com/channel/UChsYWCL7MFkDM4OsK7de8dw]()) que conta com vídeos e playlists para auxiliar a operação de diversas rotinas dos produtos TOTVS.
+
+*   Notícias do blog TOTVS
+
+Serão exibidas as últimas novidades do segmento publicadas no blog TOTVS ([{+}]()[http://blog.totvs.com/]())  
+  
+
+*   Posts do Fluig TOTVS ([{+}]()[http://fluig.totvs.com/]())
+
+Serão exibidas as últimas publicações em comunidades do Fluig (filtrando sempre por comunidades relevantes ao contexto em que a central foi aberta)
+
+*   Documento de referencia do produto ([https://www.totvs.com/mktfiles/tdiportais/helponlinedatasul/portal/index.html]())
+
+ Será exibido o conteúdo de help da rotina que originou o acesso à central.
+
+*    Documentos publicados no TDN [http://tdn.totvs.com.br/]()
+
+Links do TDN trazendo documentações das rotinas, pontos de entrada, soluções de chamados e diversas outros conteúdos do TDN. Como a consulta é on line, o usuário tem acesso a informação sempre atualizada.  
+  
+
+Além disso será possível configurar uma aba da central de ajuda com uma fonte customizada, para exibir conteúdos de uma fonte própria de conteúdos.  
+Essa fonte customizada pode ser qualquer fonte de dados do próprio cliente, que siga as definições técnicas descritas no tópico [Configuração para fonte customizada](). Por exemplo: um canal próprio no YouTube, um sistema de gestão de conteúdos para customizações criadas pelo cliente, etc.
+
+  
+Cada fonte de dados irá trazer 6 links com as últimas novidades da fonte, respeitando os filtros aplicados. Caso o usuário deseje ver mais conteúdos relacionados, poderá utilizar o link "Veja Mais" disponibilizado no final de cada coluna para ser redirecionado à página da fonte de pesquisa já com os filtros aplicados pela central de ajuda.  
+ 
+
+**Conceito das buscas**
+
+
+A Central de Ajuda possui dois conceitos de busca:
+
+*   Busca Inicial – executada na abertura da central
+*   Busca Adicional – executada quando o usuário deseja refinar a busca utilizando a caixa de texto para pesquisa .
+
+  
+Cada fonte de pesquisa irá realizar a Busca Inicial e a Busca Adicional considerando diferentes filtros e especificações, conforme descritas mais adiante nos tópicos de cada fonte.  
+Em ambas as buscas, o sistema irá aplicar filtros considerando diferentes elementos (segmento, módulo, rotina e versão), de acordo com o tipo de busca e a fonte consultada.
+
+Atenção
+
+Para acessar o conteúdo de help do produto, o usuário deverá selecionar o link com a descrição "Documento de referência do Produto", exibido sempre como primeiro link da coluna Documentação. Esse link irá abrir o conteúdo de help da rotina que originou o acesso à central.
+
