@@ -8,6 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import sensusLogo from '../assets/sensus-logo.png'
 
+// Configuração da API com fallback
+const API_URL = process.env.REACT_APP_API_URL || 'https://sensus-chatbot-backend.onrender.com'
+
 export default function Login({ onLogin }) {
   const [loginData, setLoginData] = useState({ username: '', password: '' })
   const [registerData, setRegisterData] = useState({
@@ -30,7 +33,11 @@ export default function Login({ onLogin }) {
     setError('')
 
     try {
-      const response = await fetch('/api/login', {
+      // Debug: Mostrar URL sendo usada
+      console.log('API_URL:', API_URL)
+      console.log('ENV REACT_APP_API_URL:', process.env.REACT_APP_API_URL)
+      
+      const response = await fetch(`${API_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +54,8 @@ export default function Login({ onLogin }) {
         setError(data.error || 'Erro ao fazer login')
       }
     } catch (err) {
-      setError('Erro de conexão')
+      console.error('Erro de conexão:', err)
+      setError(`Erro de conexão com ${API_URL}`)
     } finally {
       setLoading(false)
     }
@@ -66,7 +74,7 @@ export default function Login({ onLogin }) {
     }
 
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch(`${API_URL}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +95,8 @@ export default function Login({ onLogin }) {
         setError(data.error || 'Erro ao criar conta')
       }
     } catch (err) {
-      setError('Erro de conexão')
+      console.error('Erro de conexão no registro:', err)
+      setError(`Erro de conexão com ${API_URL}`)
     } finally {
       setLoading(false)
     }
