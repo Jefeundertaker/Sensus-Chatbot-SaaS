@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request, session
-from src.models.user import Transaction, User, MessagePackage, db
+from flask import Blueprint, request, jsonify, session
+from src.models.user import Transaction, User, MessagePackage
+from database import db
 from src.routes.user import admin_required, login_required
 
 transactions_bp = Blueprint('transactions', __name__)

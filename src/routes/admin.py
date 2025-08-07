@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request, session
-from src.models.user import User, ChatMessage, Transaction, MessagePackage, db
+from flask import Blueprint, request, jsonify, session
+from src.models.user import User, ChatMessage, Transaction, MessagePackage
+from database import db
 from src.routes.user import admin_required
 from sqlalchemy import func, desc
 from datetime import datetime, timedelta

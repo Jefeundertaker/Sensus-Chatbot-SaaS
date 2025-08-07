@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request, session
-from src.models.user import ChatMessage, User, db
+from flask import Blueprint, request, jsonify, session
+from src.models.user import ChatMessage, User
+from database import db
 from src.routes.user import login_required
 import openai
 import os

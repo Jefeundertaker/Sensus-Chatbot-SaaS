@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request, session, url_for, redirect
-from src.models.user import User, db
+from flask import Blueprint, request, jsonify, session
+from src.models.user import User
+from database import db
 from src.routes.user import login_required
 import secrets
 import smtplib
