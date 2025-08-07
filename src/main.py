@@ -1,18 +1,33 @@
 import os
 import sys
-# DON'T CHANGE THIS !!!
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+# Adicionar o diretório atual ao path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_dir)
 
 from flask import Flask, send_from_directory
 from flask_cors import CORS
-from models.user import db, User, MessagePackage
-from routes.user import user_bp
-from routes.packages import packages_bp
-from routes.transactions import transactions_bp
-from routes.chatbot import chatbot_bp
-from routes.admin import admin_bp
-from routes.auth import auth_bp
-from routes.health import health_bp
+
+# Imports relativos para funcionar no Render.com
+try:
+    from models.user import db, User, MessagePackage
+    from routes.user import user_bp
+    from routes.packages import packages_bp
+    from routes.transactions import transactions_bp
+    from routes.chatbot import chatbot_bp
+    from routes.admin import admin_bp
+    from routes.auth import auth_bp
+    from routes.health import health_bp
+except ImportError:
+    # Fallback para imports absolutos
+    from src.models.user import db, User, MessagePackage
+    from src.routes.user import user_bp
+    from src.routes.packages import packages_bp
+    from src.routes.transactions import transactions_bp
+    from src.routes.chatbot import chatbot_bp
+    from src.routes.admin import admin_bp
+    from src.routes.auth import auth_bp
+    from src.routes.health import health_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'sensus-chatbot-system-2025-secret-key'
