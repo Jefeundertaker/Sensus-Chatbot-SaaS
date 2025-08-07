@@ -1,16 +1,17 @@
 import os
 import sys
-
-# Adicionar o diretório atual ao path
-current_dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_dir)
-
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 
-# Imports relativos para funcionar no Render.com
+# Adicionar o diretório atual ao Python path
+sys.path.insert(0, os.path.dirname(__file__))
+
+# Importar a instância centralizada do banco
+from database import db
+
+# Tentar imports relativos primeiro, depois absolutos
 try:
-    from models.user import db, User, MessagePackage
+    from models.user import User, MessagePackage, Transaction, ChatMessage
     from routes.user import user_bp
     from routes.packages import packages_bp
     from routes.transactions import transactions_bp
@@ -19,8 +20,7 @@ try:
     from routes.auth import auth_bp
     from routes.health import health_bp
 except ImportError:
-    # Fallback para imports absolutos
-    from src.models.user import db, User, MessagePackage
+    from src.models.user import User, MessagePackage, Transaction, ChatMessage
     from src.routes.user import user_bp
     from src.routes.packages import packages_bp
     from src.routes.transactions import transactions_bp
