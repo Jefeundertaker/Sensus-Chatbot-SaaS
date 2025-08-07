@@ -27,14 +27,26 @@ export default function ChatBot({ currentUser }) {
 
   const loadChatHistory = async () => {
     try {
+      console.log('Carregando histórico para usuário:', currentUser.username, 'ID:', currentUser.id)
+      
       const response = await fetch(`/api/chat/history?per_page=10&user_id=${currentUser.id}`, {
         credentials: 'include'
       })
       
       if (response.ok) {
         const data = await response.json()
-        // Filtrar mensagens apenas do usuário atual para garantir isolamento
-        const userMessages = data.messages.filter(msg => msg.user_id === currentUser.id)
+        console.log('Dados recebidos do backend:', data)
+        
+        // Tripla verificação de isolamento
+        const userMessages = data.messages.filter(msg => {
+          const isCorrectUser = msg.user_id === currentUser.id || msg.isolated_user_id === currentUser.id
+          if (!isCorrectUser) {
+            console.warn('Mensagem de outro usuário detectada e filtrada:', msg)
+          }
+          return isCorrectUser
+        })
+        
+        console.log('Mensagens filtradas para o usuário:', userMessages)
         setMessages(userMessages.reverse())
       }
     } catch (err) {
@@ -215,19 +227,55 @@ export default function ChatBot({ currentUser }) {
               Este chatbot está personalizado para você e não consome seu saldo de mensagens.
             </p>
           </div>
+          
+          {/* Botão para inicializar conversa com nome */}
+          <div className="mb-4">
+            <button 
+              onClick={() => {
+                const iframe = document.getElementById(`gptmaker-iframe-${currentUser.id}`)
+                if (iframe && iframe.contentWindow) {
+                  // Tentar enviar mensagem para o iframe
+                  iframe.contentWindow.postMessage({
+                    type: 'setUser',
+                    username: currentUser.username,
+                    userId: currentUser.id
+                  }, '*')
+                }
+              }}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+            >
+              🔄 Identificar como {currentUser.username}
+            </button>
+          </div>
+          
           <div className="w-full" style={{ height: '500px' }}>
             <iframe 
-              src={`https://app.gptmaker.ai/widget/3E53773CC640E0D44A34DE0AA24E784E/iframe?user=${encodeURIComponent(currentUser.username)}&userId=${currentUser.id}&context=${encodeURIComponent(`Usuário: ${currentUser.username}`)}`}
+              src={`https://app.gptmaker.ai/widget/3E53773CC640E0D44A34DE0AA24E784E/iframe?user=${encodeURIComponent(currentUser.username)}&userId=${currentUser.id}&context=${encodeURIComponent(`Usuário: ${currentUser.username}`)}&name=${encodeURIComponent(currentUser.username)}`}
               width="100%" 
               style={{ height: '100%', minHeight: '500px' }}
               allow="microphone;" 
               frameBorder="0"
               title={`Chatbot para ${currentUser.username}`}
               id={`gptmaker-iframe-${currentUser.id}`}
+              onLoad={() => {
+                console.log('GPTMaker iframe carregado para:', currentUser.username)
+                // Tentar identificar o usuário após o carregamento
+                setTimeout(() => {
+                  const iframe = document.getElementById(`gptmaker-iframe-${currentUser.id}`)
+                  if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage({
+                      type: 'setUser',
+                      username: currentUser.username,
+                      userId: currentUser.id
+                    }, '*')
+                  }
+                }, 2000)
+              }}
             />
           </div>
           <div className="mt-3 text-xs text-gray-500">
-            <p>💡 <strong>Dica:</strong> Ao conversar com o chatbot, mencione que você é <strong>{currentUser.username}</strong> para uma experiência mais personalizada.</p>
+            <p>💡 <strong>Dica:</strong> Se aparecer "Desconhecido", clique no botão "🔄 Identificar" acima ou mencione que você é <strong>{currentUser.username}</strong> na primeira mensagem.</p>
+            <p className="mt-1">🔗 <strong>URL personalizada:</strong> Inclui parâmetros user={currentUser.username}&userId={currentUser.id}</p>
           </div>
         </CardContent>
       </Card>

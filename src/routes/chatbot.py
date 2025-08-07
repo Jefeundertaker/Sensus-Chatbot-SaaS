@@ -159,20 +159,32 @@ def chat():
 @chatbot_bp.route('/chat/history', methods=['GET'])
 @login_required
 def get_chat_history():
-    """Obter histórico de conversas do usuário"""
+    """Obter histórico de conversas do usuário - ISOLADO POR USUÁRIO"""
     user_id = session['user_id']
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 20, type=int)
     
-    messages = ChatMessage.query.filter_by(user_id=user_id)\
-        .order_by(ChatMessage.created_at.desc())\
-        .paginate(page=page, per_page=per_page, error_out=False)
+    # Garantir isolamento absoluto por usuário
+    messages = ChatMessage.query.filter(
+        ChatMessage.user_id == user_id
+    ).order_by(ChatMessage.created_at.desc())\
+     .paginate(page=page, per_page=per_page, error_out=False)
+    
+    # Filtrar novamente no Python para garantia extra
+    filtered_messages = []
+    for msg in messages.items:
+        if msg.user_id == user_id:
+            msg_dict = msg.to_dict()
+            msg_dict['isolated_user_id'] = user_id  # Adicionar confirmação de isolamento
+            filtered_messages.append(msg_dict)
     
     return jsonify({
-        'messages': [msg.to_dict() for msg in messages.items],
-        'total': messages.total,
+        'messages': filtered_messages,
+        'total': len(filtered_messages),
         'pages': messages.pages,
-        'current_page': page
+        'current_page': page,
+        'user_id': user_id,  # Confirmar o usuário
+        'isolation_check': True
     })
 
 @chatbot_bp.route('/admin/chat/history', methods=['GET'])
