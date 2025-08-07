@@ -6,13 +6,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 from src.models.user import db, User, MessagePackage
-from routes.user import user_bp
+from src.routesfrom routes.user import user_bp
 from routes.packages import packages_bp
 from routes.transactions import transactions_bp
 from routes.chatbot import chatbot_bp
 from routes.admin import admin_bp
 from routes.auth import auth_bp
-from routes.health import health_bp
+from routes.health import health_bpt auth_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'sensus-chatbot-system-2025-secret-key'
@@ -27,7 +27,6 @@ app.register_blueprint(transactions_bp, url_prefix='/api')
 app.register_blueprint(chatbot_bp, url_prefix='/api')
 app.register_blueprint(admin_bp, url_prefix='/api')
 app.register_blueprint(auth_bp, url_prefix='/api')
-app.register_blueprint(health_bp)  # Health check sem prefixo
 
 # Configuração do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
@@ -85,4 +84,3 @@ def serve(path):
 if __name__ == '__main__':
     init_database()
     app.run(host='0.0.0.0', port=5000, debug=True)
-

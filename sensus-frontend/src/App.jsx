@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
-import Login from './components/Login'
+import React, { useState, useEffect } from 'react'
 import Layout from './components/Layout'
+import Login from './components/Login'
 import ChatBot from './components/ChatBot'
 import Packages from './components/Packages'
 import AdminUsers from './components/AdminUsers'
+import Diagnostics from './components/Diagnostics'
 import './App.css'
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
         return <div className="text-center py-8 text-gray-500">Todas Transações em desenvolvimento</div>
       case 'admin-settings':
         return <div className="text-center py-8 text-gray-500">Configurações em desenvolvimento</div>
+      case 'diagnostics':
+        return <Diagnostics />
       default:
         return <ChatBot currentUser={currentUser} />
     }

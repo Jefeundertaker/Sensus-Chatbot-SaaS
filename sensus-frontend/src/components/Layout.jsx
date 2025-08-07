@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { LogOut, User, MessageSquare, Package, CreditCard, Settings } from 'lucide-react'
+import { LogOut, User, MessageSquare, Package, CreditCard, Settings, Wrench } from 'lucide-react'
 import sensusLogo from '../assets/sensus-logo.png'
 
 export default function Layout({ children, currentUser, onLogout }) {
@@ -11,6 +11,7 @@ export default function Layout({ children, currentUser, onLogout }) {
     { id: 'chat', label: 'Chatbot', icon: MessageSquare },
     { id: 'packages', label: 'Pacotes', icon: Package },
     { id: 'transactions', label: 'Transações', icon: CreditCard },
+    { id: 'diagnostics', label: 'Diagnóstico', icon: Wrench },
   ]
 
   const adminMenuItems = [
