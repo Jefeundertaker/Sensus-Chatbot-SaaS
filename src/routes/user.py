@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from src.models.user import User
-from database import db
+from database import db, User
 from functools import wraps
 
 user_bp = Blueprint('user', __name__)

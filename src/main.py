@@ -6,12 +6,11 @@ from flask_cors import CORS
 # Adicionar o diretório atual ao Python path
 sys.path.insert(0, os.path.dirname(__file__))
 
-# Importar a instância centralizada do banco
-from database import db
+# Importar a instância centralizada do banco e modelos
+from database import db, User, MessagePackage, Transaction, ChatMessage
 
 # Tentar imports relativos primeiro, depois absolutos
 try:
-    from models.user import User, MessagePackage, Transaction, ChatMessage
     from routes.user import user_bp
     from routes.packages import packages_bp
     from routes.transactions import transactions_bp
@@ -20,7 +19,6 @@ try:
     from routes.auth import auth_bp
     from routes.health import health_bp
 except ImportError:
-    from src.models.user import User, MessagePackage, Transaction, ChatMessage
     from src.routes.user import user_bp
     from src.routes.packages import packages_bp
     from src.routes.transactions import transactions_bp

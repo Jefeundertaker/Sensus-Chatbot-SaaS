@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from src.models.user import ChatMessage, User
-from database import db
+from database import db, ChatMessage, User
 from src.routes.user import login_required
 import openai
 import os
