@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import Layout from './components/Layout'
+import { useState, useEffect } from 'react'
 import Login from './components/Login'
+import Layout from './components/Layout'
 import ChatBot from './components/ChatBot'
 import Packages from './components/Packages'
 import AdminUsers from './components/AdminUsers'
 import Diagnostics from './components/Diagnostics'
 import './App.css'
 
+// Forçar nova implantação - 2025-08-07 03:05
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [loading, setLoading] = useState(true)
