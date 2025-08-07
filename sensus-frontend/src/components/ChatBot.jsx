@@ -27,13 +27,15 @@ export default function ChatBot({ currentUser }) {
 
   const loadChatHistory = async () => {
     try {
-      const response = await fetch('/api/chat/history?per_page=10', {
+      const response = await fetch(`/api/chat/history?per_page=10&user_id=${currentUser.id}`, {
         credentials: 'include'
       })
       
       if (response.ok) {
         const data = await response.json()
-        setMessages(data.messages.reverse())
+        // Filtrar mensagens apenas do usuário atual para garantir isolamento
+        const userMessages = data.messages.filter(msg => msg.user_id === currentUser.id)
+        setMessages(userMessages.reverse())
       }
     } catch (err) {
       console.error('Erro ao carregar histórico:', err)
@@ -55,6 +57,7 @@ export default function ChatBot({ currentUser }) {
     const userMessage = {
       question: inputMessage,
       created_at: new Date().toISOString(),
+      user_id: currentUser.id,
       user: currentUser.username
     }
 
@@ -78,6 +81,7 @@ export default function ChatBot({ currentUser }) {
           question: data.question,
           answer: data.answer,
           created_at: new Date().toISOString(),
+          user_id: currentUser.id,
           user: currentUser.username
         }
         
@@ -197,25 +201,34 @@ export default function ChatBot({ currentUser }) {
         </Alert>
       )}
 
-      {/* Iframe do chatbot externo (opcional) */}
+      {/* Iframe do chatbot externo com identificação do usuário */}
       <Card>
         <CardHeader>
-          <CardTitle>Chatbot Alternativo</CardTitle>
+          <CardTitle>Chatbot GPTMaker - {currentUser.username}</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <p className="text-sm text-blue-800">
+              <strong>Usuário identificado:</strong> {currentUser.username} (ID: {currentUser.id})
+            </p>
+            <p className="text-xs text-blue-600 mt-1">
+              Este chatbot está personalizado para você e não consome seu saldo de mensagens.
+            </p>
+          </div>
           <div className="w-full" style={{ height: '500px' }}>
             <iframe 
-              src="https://app.gptmaker.ai/widget/3E53773CC640E0D44A34DE0AA24E784E/iframe" 
+              src={`https://app.gptmaker.ai/widget/3E53773CC640E0D44A34DE0AA24E784E/iframe?user=${encodeURIComponent(currentUser.username)}&userId=${currentUser.id}&context=${encodeURIComponent(`Usuário: ${currentUser.username}`)}`}
               width="100%" 
               style={{ height: '100%', minHeight: '500px' }}
               allow="microphone;" 
               frameBorder="0"
-              title="Chatbot Externo"
+              title={`Chatbot para ${currentUser.username}`}
+              id={`gptmaker-iframe-${currentUser.id}`}
             />
           </div>
-          <p className="text-sm text-gray-500 mt-2">
-            Este é o chatbot externo fornecido. O chatbot acima consome seu saldo de mensagens.
-          </p>
+          <div className="mt-3 text-xs text-gray-500">
+            <p>💡 <strong>Dica:</strong> Ao conversar com o chatbot, mencione que você é <strong>{currentUser.username}</strong> para uma experiência mais personalizada.</p>
+          </div>
         </CardContent>
       </Card>
     </div>
