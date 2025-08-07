@@ -18,6 +18,7 @@ try:
     from routes.admin import admin_bp
     from routes.auth import auth_bp
     from routes.health import health_bp
+    from routes.setup import setup_bp
 except ImportError:
     from src.routes.user import user_bp
     from src.routes.packages import packages_bp
@@ -26,6 +27,7 @@ except ImportError:
     from src.routes.admin import admin_bp
     from src.routes.auth import auth_bp
     from src.routes.health import health_bp
+    from src.routes.setup import setup_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'sensus-chatbot-system-2025-secret-key'
@@ -40,14 +42,15 @@ db.init_app(app)
 # Habilitar CORS para permitir requisições do frontend
 CORS(app, supports_credentials=True)
 
-# Registrar blueprints APÓS inicializar o banco
-app.register_blueprint(user_bp, url_prefix='/api')
-app.register_blueprint(packages_bp, url_prefix='/api')
-app.register_blueprint(transactions_bp, url_prefix='/api')
-app.register_blueprint(chatbot_bp, url_prefix='/api')
-app.register_blueprint(admin_bp, url_prefix='/api')
-app.register_blueprint(auth_bp, url_prefix='/api')
-app.register_blueprint(health_bp)  # Health check sem prefixo
+# Registrar blueprints
+app.register_blueprint(user_bp)
+app.register_blueprint(packages_bp)
+app.register_blueprint(transactions_bp)
+app.register_blueprint(chatbot_bp)
+app.register_blueprint(admin_bp)
+app.register_blueprint(auth_bp)
+app.register_blueprint(health_bp)
+app.register_blueprint(setup_bp)
 
 def init_database():
     """Inicializar banco de dados com dados padrão"""
