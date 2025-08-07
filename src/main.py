@@ -32,10 +32,17 @@ except ImportError:
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'sensus-chatbot-system-2025-secret-key'
 
+# Configuração do banco de dados ANTES de registrar blueprints
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Inicializar SQLAlchemy com a aplicação
+db.init_app(app)
+
 # Habilitar CORS para permitir requisições do frontend
 CORS(app, supports_credentials=True)
 
-# Registrar blueprints
+# Registrar blueprints APÓS inicializar o banco
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(packages_bp, url_prefix='/api')
 app.register_blueprint(transactions_bp, url_prefix='/api')
@@ -43,11 +50,6 @@ app.register_blueprint(chatbot_bp, url_prefix='/api')
 app.register_blueprint(admin_bp, url_prefix='/api')
 app.register_blueprint(auth_bp, url_prefix='/api')
 app.register_blueprint(health_bp)  # Health check sem prefixo
-
-# Configuração do banco de dados
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
 
 def init_database():
     """Inicializar banco de dados com dados padrão"""
